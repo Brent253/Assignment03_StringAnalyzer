@@ -1,11 +1,13 @@
 package co.miniforge.corey.stringanalyzer;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class InputActivity extends AppCompatActivity {
     public static String intentTag = "inputData";
@@ -32,9 +34,23 @@ public class InputActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), TextAnalyzerUtil.class);
-                intent.putExtra(intentTag, input.getText().toString());
-                startActivity(intent);
+
+                Context message = getApplicationContext();
+                //Check if the fields are blank
+                if(input.getText().toString().trim().length() == 0)
+                {
+                    CharSequence text = "Please enter a message!";
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(message,text,duration);
+                    toast.show();
+                }
+                //Routed to correct activity
+                else {
+                    Intent intent = new Intent(getApplicationContext(), AnalyzerActivity.class);
+                    intent.putExtra(intentTag, input.getText().toString());
+                    startActivity(intent);
+
+                }
             }
         });
     }
